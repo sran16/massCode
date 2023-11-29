@@ -80,7 +80,6 @@ router.post("/login", async (req, res, next) => {
   // puis on renvoie le token
   res.json({
     token: jwt.sign(
-
       // clef pour signer le token
       process.env["JWT_KEY"],
       // durée du token
@@ -90,5 +89,49 @@ router.post("/login", async (req, res, next) => {
     ),
   });
 });
+
+// const authMiddleware = (req, res, next) => {
+//   // Check for the presence of a valid JWT token in the request header
+//   const token = req.headers["Authorization"];
+
+//   // If the token is not present, return an error response
+//   if (!token) {
+//     return res.status(401).json({
+//       error: "Unauthorized",
+//     });
+//   }
+
+//   // Try to parse the token
+//   try {
+//     const decodedToken = jwt.verify(token, process.env["JWT_KEY"]);
+
+//     // Get the user ID from the token
+//     const userId = decodedToken.payload.userId;
+
+//     // Find the user by ID
+//     const user =  prisma.user.findOne({
+//       where: {
+//         id: userId,
+//       },
+//     });
+
+//     // If the user is not found, return an error response
+//     if (!user) {
+//       return res.status(401).json({
+//         error: "Unauthorized",
+//       });
+//     }
+
+//     // Add the user to the request context
+//     req.user = user;
+
+//     next();
+//   } catch (error) {
+//     // The token is invalid, return an error response
+//     return res.status(401).json({
+//       error: "Unauthorized",
+//     });
+//   }
+// };
 
 export default router;
