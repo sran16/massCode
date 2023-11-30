@@ -80,6 +80,9 @@ router.post("/login", async (req, res, next) => {
   // puis on renvoie le token
   res.json({
     token: jwt.sign(
+      {
+        id: user.id,
+      },
       // clef pour signer le token
       process.env["JWT_KEY"],
       // durée du token
